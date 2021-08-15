@@ -21,7 +21,7 @@ function buildTable(data){
 var button = d3.select("#filter-btn");
 
 // Select the form
-var form = d3.select(".form-group");
+var form = d3.select("form");
 
 // Create event handlers 
 button.on("click", filterTable);
@@ -37,7 +37,7 @@ function filterTable() {
 
     var dateValue = dateElement.property("value");
 
-    if (dateValue === " ")
+    if ((dateValue === "") || (dateValue === " "))
     {
         tbody.html("");
         buildTable(tableData);
@@ -45,8 +45,12 @@ function filterTable() {
     else
     {
         var dateFilter = tableData.filter(dtRow => dtRow.datetime === dateValue);
-        tbody.html("");
-        buildTable(dateFilter);
+        if (dateFilter === " "){
+            tbody.html("");
+        }
+        else {
+            tbody.html("");
+            buildTable(dateFilter)};
     };
 };
 

@@ -21,7 +21,7 @@ function buildTable(data){
 var button = d3.select("#filter-btn");
 
 // Select the form
-var form = d3.select(".form-group");
+var form = d3.select("form");
 
 // Create event handlers 
 button.on("click", filterTable);
@@ -31,6 +31,8 @@ form.on("submit", filterTable);
 function filterTable() {
     // Prevent the page from refreshing
     d3.event.preventDefault();
+
+    var rowfilter = []
 
     // Select the input element and get the raw HTML node
     var dateElement = d3.select("#datetime");
@@ -48,18 +50,39 @@ function filterTable() {
     var shapeElement = d3.select("#shape");
     var shapeValue = shapeElement.property("value");
 
-    
-    var rowFilter = tableData.filter(dtRow =>  ((dtRow.datetime === dateValue) && 
-                                                (dtRow.city === cityValue) &&
-                                                (dtRow.state === stateValue) &&
-                                                (dtRow.country === countryValue) &&
-                                                (dtRow.shape === shapeValue))                                    
-        );
+    if (dateValue)
+        {rowFilter = tableData.filter(dtRow =>  (dtRow.datetime === dateValue));}
 
-    tbody.html("");
-    buildTable(rowFilter);
-    s
-};
+    if (cityValue)
+        {rowFilter = rowFilter.filter(dtRow =>  (dtRow.city === cityValue));}
+    
+    if (stateValue)
+        {rowFilter = rowFilter.filter(dtRow =>  (dtRow.state === stateValue));}
+    
+    if (countryValue)
+        {rowFilter = rowFilter.filter(dtRow =>  (dtRow.country === countryValue));}
+                                                
+    if (shapeValue)
+        {rowFilter = rowFilter.filter(dtRow =>  (dtRow.shape === shapeValue));}                                          
+
+    console.log(rowFilter)
+
+    if ((dateValue === " ") && 
+        (cityValue === " ") &&
+        (stateValue === " ") &&
+        (countryValue === " ") &&
+        (shapeValue === " "))  {
+            tbody.html("");
+            buildTable(tableData);
+    }
+
+    if (rowFilter === " ") {
+        tbody.html("");}
+    else {
+        tbody.html("");
+        buildTable(rowFilter);
+    }
+}
 
 buildTable(tableData);
 
