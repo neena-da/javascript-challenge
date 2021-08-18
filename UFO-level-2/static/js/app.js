@@ -25,30 +25,29 @@ var form = d3.select("form");
 
 // Create event handlers 
 button.on("click", filterTable);
-form.on("submit", filterTable);
 
 // Complete the event handler function for the form
 function filterTable() {
     // Prevent the page from refreshing
     d3.event.preventDefault();
 
-    var rowfilter = []
+    var rowfilter = [];
 
     // Select the input element and get the raw HTML node
     var dateElement = d3.select("#datetime");
-    var dateValue = dateElement.property("value");
+    var dateValue = dateElement.property("value").trim();
 
     var cityElement = d3.select("#city");
-    var cityValue = cityElement.property("value");
+    var cityValue = cityElement.property("value").toLowerCase().trim();
 
     var stateElement = d3.select("#state");
-    var stateValue = stateElement.property("value");
+    var stateValue = stateElement.property("value").toLowerCase().trim();
 
     var countryElement = d3.select("#country");
-    var countryValue = countryElement.property("value");
+    var countryValue = countryElement.property("value").toLowerCase().trim();
 
     var shapeElement = d3.select("#shape");
-    var shapeValue = shapeElement.property("value");
+    var shapeValue = shapeElement.property("value").toLowerCase().trim();
 
     if (dateValue)
         {rowFilter = tableData.filter(dtRow =>  (dtRow.datetime === dateValue));}
@@ -72,7 +71,6 @@ function filterTable() {
         (stateValue === " ") &&
         (countryValue === " ") &&
         (shapeValue === " "))  {
-            tbody.html("");
             buildTable(tableData);
     }
 
